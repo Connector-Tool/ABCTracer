@@ -1,0 +1,50 @@
+# System
+use_gpu: true                   # Whether to train the model on GPU.
+multi_gpu: false                # Ensure multi-GPU training.
+device_ids: [0]                 # GPU index.
+seed: 21                        # Random seed for initialization.
+
+# Dataset
+dataset: "cct"                # Dataset name. Options: ['cct']
+total_size: 12345678
+direction: "forward"            # Options: ['bidirectional', 'forward', 'backward']
+
+# Pre-trained Model
+task_type: "token_cls"          # NLP task type. Options: ['token_cls']
+ptm_name: "code5t-base"         # Pre-trained model name. Options: ['code5t-base', 'codebert-base', 'graphcodebert-base', 'unixcoder-base']
+ptm_type: "RoBERTa"             # Pre-trained model type. Options: ['Auto', 'BERT', 'RoBERTa']
+
+# Model
+#rnn: "LSTM"                     # RNN type. Options: ['RNN', 'GRU', 'LSTM']
+#crf: true                       # Whether to use CRF model.
+
+model_name: "tir"               # Name of model. Options: ['tner', 'tir']
+model_args:                     # Args of Model (Customize based on your model's requirements).
+  kv_encoder:
+    hid_dim: 64
+    embed_dim: 16
+    seq_num: 128
+    heads_num: 8
+    layers_num: 6
+  siamese_net:
+    dense_hid_dim: 64
+    dense_dropout: 0.2
+    rff_hid_dim: 64
+    act: leakyrelu
+
+# Train
+do_train: true                   # Whether to train a model from scratch.
+epochs: 120                      # Number of training epochs.
+train_batch_size: 12             # Batch size of training.
+eval_batch_size: 12              # Batch size of evaluating.
+eval_per_epoch: 1                # How often evaluating the trained model on valid dataset during training.
+optimizer: "SGD"                 # Optimizer type. Options: ['SGD', 'Adam']
+learning_rate: 0.00005             # Learning rate.
+lr_factor: 0.000005                 # Learning rate factor.
+crf_learning_rate: 0.00005         # CRF learning rate.
+dropout_rate: 0.2                # Dropout rate.
+warmup_proportion: 0.1           # Warmup proportion.
+weight_decay: 0.01               # Weight decay.
+gradient_accumulation_steps: 1    # Gradient accumulation steps.
+max_grad_norm: 1.0               # Max gradient norm.
+max_seq_len: 512                 # Max sequence length.
